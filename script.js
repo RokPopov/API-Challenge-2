@@ -1,7 +1,7 @@
 /**
  * [x] 1. Initialize an XMLHttpRequest constructor
- * [] 2. Open a GET request, set the headers and response type
- * [] 3. Output successful response
+ * [x] 2. Open a GET request, set the headers and response type
+ * [x] 3. Output successful response
  * [] 4. Output error state
  * [] 5. Combine with an event listener (button)
  * [] 6. Adjust UI states accordingly
@@ -9,4 +9,18 @@
  */
 
 const API_ENDPOINT = 'https://icanhazdadjoke.com/';
-const XHR = new HTMLHttpRequest();
+const XHR = new XMLHttpRequest();
+
+
+const fetchJoke = () => {
+  XHR.open('GET', API_ENDPOINT);
+  XHR.setRequestHeader('Accept', 'application/json');
+  XHR.responseType = 'json';
+  // console.log(XHR);
+  XHR.onload = function() {
+    console.log('Great Success!!!: ', XHR.response.joke);
+  }
+  XHR.send();
+}
+
+fetchJoke();
