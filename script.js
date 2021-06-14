@@ -4,7 +4,7 @@
  * [x] 3. Output successful response
  * [x] 4. Output error state
  * [x] 5. Combine with an event listener (button)
- * [] 6. Adjust UI states accordingly
+ * [x] 6. Adjust UI states accordingly
  * [] 7. Bonus: change button CTA to indicate if it's the first joke or a "next" one
  */
 
@@ -18,19 +18,41 @@ const errorContainerSelector = document.getElementById('error-container');
 const loaderSelector = document.getElementById('loader');
 const buttonTextSelector = document.getElementById('cta');
 
+function setDisabledUiState(isDisabled) {
+  setLoaderState(isDisabled);
+  setButtonState(isDisabled);
+}
+
 function showData(joke) {
-  setButtonState(false);
-  setLoaderState(false);
+  setDisabledUiState(false)
   jokeSelector.innerHTML = joke;
 }
 
 function showError(error) {
-  setLoaderState(false);
-  setButtonState(false);
-  jokeSelector.innerHTML = error;
-  jokeSelector.style.display = 'block';
-  
+  setDisabledUiState(false)
+  errorSelector.innerHTML = error;
+  errorContainerSelector.style.display = 'block';
+}
 
+function setLoaderState(isVisible) {
+  const displayState = isVisible ? 'block' : 'none';
+  loaderSelector.style.display = displayState;
+}
+
+function setButtonState(isDisabled) {
+  if (isDisabled) {
+      buttonSelector.setAttribute('disabled', 'disabled');
+  } else {
+      buttonSelector.removeAttribute('disabled');
+  }
+
+  const buttonCtaState = isDisabled ? 'none' : 'block';
+  buttonTextSelector.style.display = buttonCtaState;
+}
+
+function setButtonCta(isError) {
+  const buttonCta = isError ? "Let's try again.." : 'Make another funny!';
+  buttonTextSelector.innerHTML = buttonCta;
 }
 
 const fetchData = () => {
@@ -40,32 +62,16 @@ const fetchData = () => {
   // console.log(XHR);
   XHR.onload = function() {
     showData(XHR.response.joke)
+    setButtonCta(false);
   }
   XHR.onerror = function() {
     showError('Sad No Go, Again You Try');
+    setButtonCta(true);
   } 
   XHR.send();
-}
+} 
 
-function setLoaderState(isVisible) {
-  const displayState = isVisible ? 'block' : 'none';
-  loaderSelector.style.display = displayState;
-};  
-
-function setButtonState(isDisabled) {
-  if (isDisabled) {
-    buttonSelector.setAttribute('disabled', 'disabled');
-  } else {
-    buttonSelector.removeAttribute('disabled');
-  }
-  const buttonCtaState = isDisabled ? 'none' : 'block';
-  buttonTextSelector.style.display = buttonCtaState;
-}
-   
 buttonSelector.addEventListener('click', function() {
+  setDisabledUiState(true)
   fetchData();
-  setLoaderState(true);
-  setButtonState(true);
-})
-
-fetchData();
+});
