@@ -5,7 +5,7 @@
  * [x] 4. Output error state
  * [x] 5. Combine with an event listener (button)
  * [x] 6. Adjust UI states accordingly
- * [] 7. Bonus: change button CTA to indicate if it's the first joke or a "next" one
+ * [x] 7. Bonus: change button CTA to indicate if it's the first joke or a "next" one
  */
 
 const API_ENDPOINT = 'https://icanhazdadjoke.com/';
