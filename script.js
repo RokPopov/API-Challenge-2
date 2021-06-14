@@ -18,12 +18,14 @@ const errorContainerSelector = document.getElementById('error-container');
 const loaderSelector = document.getElementById('loader');
 
 function showData(joke) {
-  setLoaderState();
+  setButtonState(false);
+  setLoaderState(false);
   jokeSelector.innerHTML = joke;
 }
 
 function showError(error) {
-  setLoaderState();
+  setLoaderState(false);
+  setButtonState(false);
   jokeSelector.innerHTML = error;
   jokeSelector.style.display = 'block';
   
@@ -49,14 +51,18 @@ function setLoaderState(isVisible) {
   loaderSelector.style.display = displayState;
 };  
 
-function setButtonState() {
-  buttonSelector.setAttribute('disabled', 'disabled');
+function setButtonState(isDisabled) {
+  if (isDisabled) {
+    buttonSelector.setAttribute('disabled', 'disabled');
+  } else {
+    buttonSelector.removeAttribute('disabled');
+  }
 }
    
 buttonSelector.addEventListener('click', function() {
   fetchData();
   setLoaderState(true);
-  setButtonState();
+  setButtonState(true);
 })
 
 fetchData();
