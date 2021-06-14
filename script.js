@@ -16,6 +16,7 @@ const jokeSelector = document.getElementById('joke');
 const errorSelector = document.getElementById('error-message');
 const errorContainerSelector = document.getElementById('error-container');
 const loaderSelector = document.getElementById('loader');
+const buttonTextSelector = document.getElementById('cta');
 
 function showData(joke) {
   setButtonState(false);
@@ -57,6 +58,8 @@ function setButtonState(isDisabled) {
   } else {
     buttonSelector.removeAttribute('disabled');
   }
+  const buttonCtaState = isDisabled ? 'none' : 'block';
+  buttonTextSelector.style.display = buttonCtaState;
 }
    
 buttonSelector.addEventListener('click', function() {
