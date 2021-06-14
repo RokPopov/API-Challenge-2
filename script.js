@@ -12,7 +12,23 @@ const API_ENDPOINT = 'https://icanhazdadjoke.com/';
 const XHR = new XMLHttpRequest();
 
 const buttonSelector = document.getElementById('button');
+const jokeSelector = document.getElementById('joke');
+const errorSelector = document.getElementById('error-message');
+const errorContainerSelector = document.getElementById('error-container');
+const loaderSelector = document.getElementById('loader');
 
+function showData(joke) {
+  setLoaderState();
+  jokeSelector.innerHTML = joke;
+}
+
+function showError(error) {
+  setLoaderState();
+  jokeSelector.innerHTML = error;
+  jokeSelector.style.display = 'block';
+  
+
+}
 
 const fetchData = () => {
   XHR.open('GET', API_ENDPOINT);
@@ -20,17 +36,23 @@ const fetchData = () => {
   XHR.responseType = 'json';
   // console.log(XHR);
   XHR.onload = function() {
-    console.log('Great Success!!!: ', XHR.response.joke);
+    showData(XHR.response.joke)
   }
   XHR.onerror = function() {
-    console.error('Sad No Go');
+    showError('Sad No Go, Again You Try');
   } 
   XHR.send();
 }
 
+function setLoaderState(isVisible) {
+  const displayState = isVisible ? 'block' : 'none';
+  loaderSelector.style.display = displayState;
+};  
+
+   
 buttonSelector.addEventListener('click', function() {
   fetchData();
+  setLoaderState(true);
 })
-
 
 fetchData();
