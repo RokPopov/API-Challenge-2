@@ -49,10 +49,14 @@ function setLoaderState(isVisible) {
   loaderSelector.style.display = displayState;
 };  
 
+function setButtonState() {
+  buttonSelector.setAttribute('disabled', 'disabled');
+}
    
 buttonSelector.addEventListener('click', function() {
   fetchData();
   setLoaderState(true);
+  setButtonState();
 })
 
 fetchData();
